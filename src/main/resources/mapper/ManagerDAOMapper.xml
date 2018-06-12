@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.ManagerDao">
+	<select id="queryByUsername" parameterType="java.lang.String" resultType="Manager">
+		select id,username,password from manager where username=#{username}
+	</select>
+	<update id="updateById" parameterType="java.lang.String">
+		update manager set password=#{password} where id=#{id}
+	</update>
+</mapper>

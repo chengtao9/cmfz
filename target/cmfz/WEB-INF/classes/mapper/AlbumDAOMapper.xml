@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.AlbumDao">
+	<select id="queryById" parameterType="java.lang.String" resultType="Album">
+		select id,title,coverImg,count,score,author,broadcast,publishDate,breif from album where id=#{id}
+	</select>
+	<resultMap id="queryall" type="Album">
+		<id column="aid" property="id"></id>
+		<result column="atitle" property="title"></result>
+		<result column="acoverImg" property="coverImg"/>
+		<result column="acount" property="count"/>
+		<result column="ascore" property="score"/>
+		<result column="aauthor" property="author"/>
+		<result column="abroadcast" property="broadcast"/>
+		<result column="apublishDate" property="publishDate"/>
+		<result column="abreif" property="breif"/>
+		<collection property="children" ofType="Chapter">
+			<id column="cid" property="id"/>
+			<result column="ctitle" property="title"/>
+			<result column="csize" property="size"/>
+			<result column="cduration" property="duration"/>
+			<result column="cdownPath" property="downPath"/>
+			<result column="cuploadDate" property="uploadDate"/>
+			<result column="coldName" property="oldName"/>
+		</collection>
+	</resultMap>
+	<select id="queryPage" resultMap="queryall" parameterType="java.lang.Integer">
+		select a.id aid,a.title atitle,a.coverImg acoverImg,a.count acount,a.score ascore,a.author aauthor,a.broadcast abroadcast,
+		a.publishDate apublishDate,a.breif abreif,c.id cid,c.title ctitle,c.size csize,c.duration cduration,c.downPath cdownPath,
+		c.uploadDate cuploadDate,c.pid cpid,c.oldName coldName
+		from album a
+		left join chapter c
+		on c.pid=a.id
+		limit #{begin},#{rows}
+	</select>
+	<select id="queryAll" resultType="Album">
+		select id,title,coverImg,count,score,author,broadcast,publishDate,breif from album
+	</select>
+	<insert id="insert" parameterType="Album">
+		insert into album (id,title,coverImg,count,score,author,broadcast,publishDate,breif)
+		values(#{id},#{title},#{coverImg},#{count},#{score},#{author},#{broadcast},#{publishDate},#{breif})
+	</insert>
+
+	<update id="updateCount" parameterType="Album">
+		update album set count=#{count} where id=#{id}
+	</update>
+</mapper>

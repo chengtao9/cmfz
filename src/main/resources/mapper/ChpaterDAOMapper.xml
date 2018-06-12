@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.ChapterDao">
+  	<insert id="insert" parameterType="Chapter">
+  		insert into chapter(id,title,size,downPath,uploadDate,pid,oldName,duration)
+  		values(#{id},#{title},#{size},#{downPath},#{uploadDate},#{pid},#{oldName},#{duration})
+  	</insert>
+	<select id="queryByPid" parameterType="java.lang.String" resultType="Chapter">
+		select id,title,size,downPath,uploadDate,oldName,duration from chapter where pid=#{pid}
+	</select>
+</mapper>
